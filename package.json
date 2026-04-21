@@ -4,20 +4,30 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && prisma generate",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:seed": "node prisma/seed.js"
   },
   "dependencies": {
     "next": "16.2.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "@prisma/client": "^5.8.0",
+    "next-auth": "^4.24.5",
+    "@auth/prisma-adapter": "^1.4.0",
+    "bcryptjs": "^2.4.3",
+    "axios": "^1.6.5",
+    "iron-session": "^8.0.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
-    "tailwindcss": "^4"
+    "tailwindcss": "^4",
+    "prisma": "^5.8.0"
   }
 }
 
