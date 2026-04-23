@@ -1,33 +1,47 @@
 {
   "name": "ciniflix",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Full-stack Netflix clone with React, Node.js, and PostgreSQL",
+  "author": "CiniFlix Team",
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && prisma generate",
+    "build": "next build && npx prisma generate",
     "start": "next start",
-    "lint": "eslint",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:seed": "node prisma/seed.js"
+    "lint": "eslint . --ext .js,.jsx",
+    "prisma:generate": "npx prisma generate",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:migrate:deploy": "npx prisma migrate deploy --skip-generate",
+    "prisma:seed": "node prisma/seed.js",
+    "db:push": "npx prisma db push",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "@prisma/client": "^5.8.0",
+    "@prisma/client": "^5.22.0",
     "next-auth": "^4.24.5",
     "@auth/prisma-adapter": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "axios": "^1.6.5",
-    "iron-session": "^8.0.1"
+    "iron-session": "^8.0.1",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
-    "prisma": "^5.8.0"
+    "typescript": "^5",
+    "prisma": "^5.22.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   }
 }
 
