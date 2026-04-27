@@ -1,300 +1,135 @@
 # CiniFlix - Netflix Clone
 
-A full-stack Netflix clone built with React.js (Next.js), Node.js, and PostgreSQL. Stream your favorite movies with user authentication, watchlist management, and reviews.
+A full-stack Netflix clone application built with React, Next.js, Node.js, and PostgreSQL.
 
 ## Features
 
-✨ **User Authentication**
-- User registration and login with NextAuth
-- Secure password hashing with bcryptjs
-- JWT based session management
-
-🎬 **Movie Catalog**
-- Browse trending movies
-- Search movies by title or description
-- Filter by genre
-- View detailed movie information with reviews
-
-📋 **Watchlist Management**
-- Add/remove movies from watchlist
-- Track watch progress
-- Mark movies as completed
-
-⭐ **Reviews & Ratings**
-- Rate movies (1-10)
-- Leave written reviews
-- View other users' reviews
+✨ **User Authentication** - Secure sign-up and login with NextAuth.js
+🎬 **Movie Browse** - Browse, search, and filter movies
+🎯 **Watchlist** - Add movies to your personal watchlist
+⭐ **Reviews & Ratings** - Write and read movie reviews
+📱 **Responsive Design** - Works on desktop, tablet, and mobile
+🚀 **Production Ready** - Deployed on Render
 
 ## Tech Stack
 
-### Frontend
-- **Next.js 16** - React framework
-- **Tailwind CSS** - Styling
-- **NextAuth.js** - Authentication
-- **Axios** - HTTP requests
+- **Frontend**: React 19, Next.js 16, Tailwind CSS
+- **Backend**: Node.js, Next.js API Routes
+- **Database**: PostgreSQL with Prisma ORM
+- **Authentication**: NextAuth.js 4
+- **Deployment**: Render
 
-### Backend
-- **Node.js** - Runtime
-- **Next.js API Routes** - Backend API
-- **Express** - API middleware (optional)
+## Quick Start
 
-### Database
-- **PostgreSQL** - Primary database
-- **Prisma ORM** - Database management
-- **Render PostgreSQL** - Cloud database hosting
+### Prerequisites
+- Node.js v20+
+- PostgreSQL database
+- npm or yarn
 
-## Prerequisites
+### Local Development
 
-- Node.js 18+ and npm
-- PostgreSQL database (local or Render)
-- GitHub account (optional for OAuth)
-
-## Installation
-
-### 1. Clone the Repository
-
+1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/ciniflix.git
+git clone https://github.com/Navyanchaitanya/ciniflix.git
 cd ciniflix
 ```
 
-### 2. Install Dependencies
-
+2. Install dependencies
 ```bash
 npm install
 ```
 
-### 3. Set Up Environment Variables
-
-Create a `.env.local` file in the root directory:
-
+3. Set up environment variables
 ```bash
-# Database
-DATABASE_URL="postgresql://user:password@localhost:5432/ciniflix"
-
-# NextAuth
-NEXTAUTH_SECRET="generate-with: openssl rand -base64 32"
-NEXTAUTH_URL="http://localhost:3000"
-
-# OAuth (optional)
-GITHUB_ID=""
-GITHUB_SECRET=""
-GOOGLE_CLIENT_ID=""
-GOOGLE_CLIENT_SECRET=""
+cp .env.production.example .env.local
+# Edit .env.local with your local PostgreSQL connection string
 ```
 
-### 4. Set Up Database
-
+4. Run database migrations and seed data
 ```bash
-# Generate Prisma client
-npx prisma generate
-
-# Run migrations
-npx prisma migrate dev --name init
-
-# Seed with sample data
+npm run prisma:migrate
 npm run prisma:seed
 ```
 
-### 5. Run Development Server
-
+5. Start the development server
 ```bash
 npm run dev
 ```
 
-Visit http://localhost:3000 in your browser.
+6. Open http://localhost:3000 in your browser
 
-## Database Setup with Render PostgreSQL
+## Deployment to Render
 
-### Create a Render PostgreSQL Database
+1. Push code to GitHub
+2. Create a new Web Service on Render connected to this repository
+3. Select Node as runtime
+4. Set environment variables in Render dashboard:
+   - `NEXTAUTH_SECRET`: Generate with `openssl rand -base64 32`
+   - Other variables are auto-configured by Render from render.yaml
+5. Deploy!
 
-1. Go to [render.com](https://render.com)
-2. Create a free PostgreSQL database
-3. Copy the connection string
-4. Add to `.env.local`:
-
-```
-DATABASE_URL="your-render-postgresql-url"
-```
-
-### Connect Render Database Locally
+## Available Scripts
 
 ```bash
-npx prisma db push
-npm run prisma:seed
+npm run dev              # Start development server
+npm run build            # Build for production
+npm start                # Start production server
+npm run prisma:migrate   # Run database migrations
+npm run prisma:seed      # Seed database with sample data
+npm run db:reset         # Reset database
+npm run studio           # Open Prisma Studio
+npm run lint             # Run ESLint
 ```
 
-## API Routes
+## API Endpoints
 
 ### Authentication
-- `POST /api/auth/register` - Register new user
-- `POST /api/auth/[...nextauth]` - NextAuth handler
+- `POST /api/auth/signin` - User login
+- `GET /api/auth/session` - Get current session
 
 ### Movies
-- `GET /api/movies` - Get all movies (with pagination & filters)
+- `GET /api/movies` - Get all movies (with pagination)
 - `GET /api/movies/[id]` - Get movie details
+- `GET /api/movies/[id]/reviews` - Get movie reviews
 
 ### Watchlist
 - `GET /api/watchlist` - Get user's watchlist
 - `POST /api/watchlist` - Add movie to watchlist
 - `DELETE /api/watchlist/[id]` - Remove from watchlist
-- `PATCH /api/watchlist/[id]` - Update watch progress
 
 ### Reviews
-- `POST /api/movies/[id]/reviews` - Add review
-- `GET /api/movies/[id]` - Get reviews with movie
+- `POST /api/reviews` - Create a review
+- `GET /api/reviews` - Get reviews
 
-## Deployment to Render
-
-### 1. Push to GitHub
-
-```bash
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/yourusername/ciniflix.git
-git branch -M main
-git push -u origin main
-```
-
-### 2. Create Render Web Service
-
-1. Go to [render.com](https://render.com)
-2. Click "New Web Service"
-3. Connect your GitHub repository
-4. Configure:
-   - **Build Command:** `npm install && npm run build && npx prisma migrate deploy`
-   - **Start Command:** `npm start`
-
-### 3. Add Environment Variables on Render
-
-Set these in the Render dashboard:
-
-```
-DATABASE_URL=your-render-postgresql-connection-string
-NEXTAUTH_SECRET=your-secret-key
-NEXTAUTH_URL=your-render-app-url
-```
-
-### 4. Deploy
-
-Push changes to GitHub and Render will automatically deploy!
+### Health
+- `GET /api/health` - Check app and database status
 
 ## Project Structure
 
 ```
-ciniflix/
 ├── src/
-│   ├── app/
-│   │   ├── api/
-│   │   │   ├── auth/
-│   │   │   ├── movies/
-│   │   │   ├── watchlist/
-│   │   │   └── ...
-│   │   ├── login/
-│   │   ├── signup/
-│   │   ├── browse/
-│   │   ├── watchlist/
-│   │   ├── movie/[id]/
-│   │   └── page.js (home)
-│   ├── components/
-│   │   ├── Header.js
-│   │   ├── MovieCard.js
-│   │   ├── SessionProvider.js
-│   │   └── ...
-│   └── lib/
-│       ├── prisma.js
-│       └── auth.js
-├── prisma/
-│   ├── schema.prisma
-│   └── seed.js
-├── public/
-├── .env.local
-├── package.json
-├── next.config.js
-└── tailwind.config.js
+│   ├── app/           # Next.js pages and API routes
+│   ├── components/    # React components
+│   ├── lib/          # Utilities
+│   └── styles/       # CSS files
+├── prisma/           # Database schema and migrations
+├── public/           # Static assets
+├── render.yaml       # Render deployment config
+└── package.json      # Dependencies
 ```
 
-## Database Schema
+## Database Models
 
-### User
-- id
-- email (unique)
-- password (hashed)
-- name
-- image
-- emailVerified
-- timestamps
+- **User** - User accounts with email, name, password
+- **Movie** - Movie details with title, description, ratings
+- **WatchlistItem** - User's saved movies and watch progress
+- **Review** - User reviews and ratings for movies
 
-### Movie
-- id
-- title
-- description
-- posterUrl
-- backdropUrl
-- releaseDate
-- rating
-- duration
-- genre (array)
-- director
-- cast (array)
-- trailerUrl
-- videoUrl
-- viewCount
+## Demo Account
 
-### WatchlistItem
-- id
-- userId (foreign key)
-- movieId (foreign key)
-- addedAt
-- completed
-- progress (0-100)
-
-### Review
-- id
-- userId (foreign key)
-- movieId (foreign key)
-- rating (1-10)
-- comment
-- timestamps
-
-## Demo Credentials
-
-After seeding the database:
-
-```
-Email: demo@example.com
-Password: demo123
-```
-
-## Features to Add (Future)
-
-- [ ] Payment integration (Stripe)
-- [ ] Video streaming functionality
-- [ ] User profiles and avatar upload
-- [ ] Recommendation algorithm
-- [ ] Admin dashboard for movie management
-- [ ] Mobile app (React Native)
-- [ ] Real-time notifications
-- [ ] Social features (follow, share ratings)
-- [ ] Content rating system
-- [ ] Subtitles support
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Email: test@example.com
+Password: password123
 
 ## License
 
-MIT License - see LICENSE file for details
-
-## Support
-
-For support, open an issue on GitHub or contact [your-email@example.com]
-
----
-
-Happy streaming! 🎬🍿
+MIT

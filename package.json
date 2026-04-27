@@ -4,6 +4,9 @@
   "description": "Full-stack Netflix clone with React, Node.js, and PostgreSQL",
   "author": "CiniFlix Team",
   "private": true,
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "scripts": {
     "dev": "next dev",
     "dev:setup": "npx prisma generate && npx prisma migrate dev && npm run prisma:seed",
